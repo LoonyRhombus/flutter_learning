@@ -66,7 +66,7 @@ Widget build(BuildContext context) {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 300),
             bottom: -50 + (_counter * 10),
-            child: Text('Congratulation'),
+            child: Text('Congratulations'),
           ),
         ],
       ),
