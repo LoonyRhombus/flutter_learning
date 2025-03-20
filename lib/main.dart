@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'second_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
@@ -35,6 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = -1;
   int rndBottom = 0;
   int rndLeft = 0;
+  bool visitedSP = false;
 
   @override
   Widget build(BuildContext context) {
@@ -43,21 +46,27 @@ class _MyHomePageState extends State<MyHomePage> {
       return min + random.nextInt(max - min + 1);
     }
     int getMaxHeight() {
-      int screenHeight = 0;
-      return screenHeight = (MediaQuery.of(context).size.height).toInt()-112;
+      return (MediaQuery.of(context).size.height).toInt()-112;
     }
     int getMaxWidth() {
-      int screenWidth = 0;
-      return screenWidth = (MediaQuery.of(context).size.width).toInt()-56;
+      return (MediaQuery.of(context).size.width).toInt()-56;
     }
     void jumpTheButton(){
       rndBottom = generateRandomNumber(0, getMaxHeight());
       rndLeft = generateRandomNumber(0, getMaxWidth());
     }
     void timerButtonJumpingWhatever() {
-      Timer.periodic(Duration(milliseconds: 750), (timer) {
+      Timer.periodic(Duration(milliseconds:2000), (timer) {
         if (_counter > 10){
           timer.cancel();
+          setState(() {
+            visitedSP = true;
+          });
+          // Navigáció a második oldalra
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SecondPage()),
+          );
         }
         else{
           setState(() {
@@ -88,8 +97,18 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text('You have pushed the button this many times:'),
-                //const SizedBox(height: 20), // Kis távolság a szöveg és a gomb között
+                Visibility(
+                  visible: visitedSP,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SecondPage()),
+                      );
+                    },
+                    child: Text('->'),
+                  ),
+                )
               ],
             ),
           ),
