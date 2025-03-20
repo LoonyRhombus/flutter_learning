@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learning/main.dart';
 
 
 class SecondPage extends StatelessWidget {
@@ -25,7 +26,24 @@ class _MySecondPageState extends State<MySecondPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      body: Stack(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              FloatingActionButton(
+                onPressed:() {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyApp()),
+                      );
+                    },
+                child: Text('<-'),
+              )
+            ],
+          ),
+        ],
+      )
     );
   }
 }
