@@ -33,14 +33,19 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   int _counter = -1;
   int rndBottom = 0;
   int rndLeft = 0;
   bool visitedSP = false;
 
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     int generateRandomNumber(int min, int max) {
       var random = Random();
       return min + random.nextInt(max - min + 1);
@@ -56,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
       rndLeft = generateRandomNumber(0, getMaxWidth());
     }
     void timerButtonJumpingWhatever() {
-      Timer.periodic(Duration(milliseconds:750), (timer) {
+      Timer.periodic(Duration(milliseconds:2000), (timer) {
         if (_counter > 10){
           timer.cancel();
           setState(() {
@@ -65,7 +70,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // Navigáció a második oldalra
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SecondPage()),
+            MaterialPageRoute(
+              builder: (context) => SecondPage(),
+              settings: RouteSettings(name: '/second_page'),
+            ),
           );
         }
         else{
@@ -101,9 +109,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   visible: visitedSP,
                   child: FloatingActionButton(
                     onPressed: () {
-                        Navigator.push(
+                        Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => SecondPage()),
+                        MaterialPageRoute(
+                          builder: (context) => SecondPage(),
+                          settings: RouteSettings(name: '/second_page'),
+                        ),
+                        (Route<dynamic> route) => route.isFirst,
                       );
                     },
                     child: Text('->'),
