@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
       rndLeft = generateRandomNumber(0, getMaxWidth());
     }
     void timerButtonJumpingWhatever() {
-      Timer.periodic(Duration(milliseconds:2000), (timer) {
+      Timer.periodic(Duration(milliseconds:750), (timer) {
         if (_counter > 10){
           timer.cancel();
           setState(() {
